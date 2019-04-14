@@ -114,9 +114,9 @@ checkBoxCollection.on('change', function(){         //fucntion to disable confli
 
 checkBoxCollection.on('change', function(){           // function to add the value of checkbox to activityCosts
   if ($(this).is(':checked')){
-    activityCosts += $(this).val();
+    activityCosts += $(this).val();                 //ideally should add the value to activty costs
   }else{
-    activityCosts -= $(this).val();
+    activityCosts -= $(this).val();               //ideally should subtract value if unchecked 
   }
 
   // activityCosts = 0;
