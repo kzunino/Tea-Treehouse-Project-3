@@ -5,7 +5,8 @@
 const otherInput = $('#other-title');
 const design = $('#design');
 const shirtColors = $('#color option');
-shirtColors.hide();
+
+shirtColors.hide();                       // hides shirt colors when page loads
 
 // Puts the focus on name input when page is loaded
 $('#name').focus();
@@ -42,7 +43,7 @@ design.on('click', function (){                     // function to hide/show col
       }
     });
   }
- if (design.val() === 'select theme'){              //if no design is selected, hides all color options
+ if (design.val() === 'select theme'){              //if select theme is selected, hides all color options
    shirtColors.hide();
  }
 });
@@ -60,5 +61,64 @@ design.on('click', function (){                     // function to hide/show col
   If they add 1 workshop, the total should change to Total: $300.
 */
 
-const checkBoxCollection = $('.activities label input');
-ddd
+const checkBoxCollection = $(':checkbox');
+const activityLabels = $('.activities label input');
+const mainConference = $('[name="all"]');
+const js_frameworks = $('[name="js-frameworks"]');
+const express = $('[name="express"]');
+const js_libs = $('[name="js-libs"]');
+const node = $('[name="node"]');
+const build_tools = $('[name="build-tools"]');
+const npm = $('[name="npm"]');
+const activitiesFieldSet = $('.activities');
+activitiesFieldSet.append('<p>Cost:</p>');
+let activityCosts = 0;
+
+checkBoxCollection.on('change', function(){         //fucntion to disable conflicting times for workshops
+  if (js_frameworks.is(':checked')){                //if js_frameworks is checked then express workship is disabled and checkbox is hidden
+    express.prop('disabled', true).hide();
+  }
+  if (js_frameworks.is(':checked') === false){
+    express.prop('disabled', false).show();
+  }
+  if (express.is(':checked')){
+    js_frameworks.prop('disabled', true).hide();
+  }
+  if (express.is(':checked') === false){
+    js_frameworks.prop('disabled', false).show();
+  }
+  if (js_libs.is(':checked')){
+    node.prop('disabled', true).hide();
+  }
+  if (js_libs.is(':checked') === false){
+    node.prop('disabled', false).show();
+  }
+  if (node.is(':checked')){
+    js_libs.prop('disabled', true).hide();
+  }
+  if (node.is(':checked') === false){
+    js_libs.prop('disabled', false).show();
+  }
+});
+
+checkBoxCollection.on('change', function(){
+  // activityCosts = 0;
+  if (mainConference.is(':checked')){
+    activityCosts += 200;
+  }else if (mainConference.is(':checked') === false){
+    activityCosts -= 200;
+  }
+  if (js_frameworks.is(':checked')
+        || express.is(':checked')
+        || js_libs.is(':checked')
+        || node.is(':checked')
+        || build_tools.is(':checked')
+        || npm.is(':checked')) {
+           activityCosts += 100;
+     }else{
+     }
+  if (activityCosts < 0){
+    activityCosts = 0;
+  }
+  console.log(activityCosts);
+});
