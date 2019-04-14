@@ -64,15 +64,26 @@ design.on('click', function (){                     // function to hide/show col
 const checkBoxCollection = $(':checkbox');
 const activityLabels = $('.activities label input');
 const mainConference = $('[name="all"]');
+mainConference.val(200);
 const js_frameworks = $('[name="js-frameworks"]');
+js_frameworks.val(100);
 const express = $('[name="express"]');
+express.val(100);
 const js_libs = $('[name="js-libs"]');
+js_libs.val(100);
 const node = $('[name="node"]');
+node.val(100);
 const build_tools = $('[name="build-tools"]');
+build_tools.val(100);
 const npm = $('[name="npm"]');
+npm.val(100);
 const activitiesFieldSet = $('.activities');
-activitiesFieldSet.append('<p>Cost:</p>');
-let activityCosts = 0;
+
+
+activitiesFieldSet.append(`<p>
+    <label>Total: $ <input type="text" name="total" value="0.00" readonly="readonly"></label>
+    </p>`);
+let activityCosts = $('[name="total"]').val(0);
 
 checkBoxCollection.on('change', function(){         //fucntion to disable conflicting times for workshops
   if (js_frameworks.is(':checked')){                //if js_frameworks is checked then express workship is disabled and checkbox is hidden
@@ -101,24 +112,29 @@ checkBoxCollection.on('change', function(){         //fucntion to disable confli
   }
 });
 
-checkBoxCollection.on('change', function(){
+checkBoxCollection.on('change', function(){           // function to add the value of checkbox to activityCosts
+  if ($(this).is(':checked')){
+    activityCosts += $(this).val();
+  }else{
+    activityCosts -= $(this).val();
+  }
+
   // activityCosts = 0;
-  if (mainConference.is(':checked')){
-    activityCosts += 200;
-  }else if (mainConference.is(':checked') === false){
-    activityCosts -= 200;
-  }
-  if (js_frameworks.is(':checked')
-        || express.is(':checked')
-        || js_libs.is(':checked')
-        || node.is(':checked')
-        || build_tools.is(':checked')
-        || npm.is(':checked')) {
-           activityCosts += 100;
-     }else{
-     }
-  if (activityCosts < 0){
-    activityCosts = 0;
-  }
-  console.log(activityCosts);
+  // if (mainConference.is(':checked')){
+  //   activityCosts += 200;
+  // }else if (mainConference.is(':checked') === false){
+  //   activityCosts -= 200;
+  // }
+  // if (js_frameworks.is(':checked')
+  //       || express.is(':checked')
+  //       || js_libs.is(':checked')
+  //       || node.is(':checked')
+  //       || build_tools.is(':checked')
+  //       || npm.is(':checked')) {
+  //          activityCosts += 100;
+  //    }else{
+  //    }
+  // if (activityCosts < 0){
+  //   activityCosts = 0;
+  // }
 });
