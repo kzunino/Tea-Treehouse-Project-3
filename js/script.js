@@ -11,15 +11,24 @@ const express = $('[name="express"]');
 const js_libs = $('[name="js-libs"]');
 const node = $('[name="node"]');
 const activitiesFieldSet = $('.activities');
+const paymentMethod = $('#payment option');
+const paypalDiv = $('#credit-card').next();
+const bitcoinDiv = $('#credit-card').next().next();
+let activityCosts = $('[name="total"]').val(0);                          //sets the start value of activity costs to 0 because no workships are selected
+
 activitiesFieldSet.append(`<p>
     <label>Total: $
       <input type="text" name="total" value="0.00" readonly="readonly">
     </label>
-    </p>`);                                         // appends  a readonly text field for total costs
-let activityCosts = $('[name="total"]').val(0);     //sets the start value of activity costs to 0 because no workships are selected
+    </p>`);                                                             // appends a 'readonly' text field for total costs of selected workshops
 
-$('input[type=checkbox]').prop('checked',false);    // unchecks all checkboxes if page is refreshed
-shirtColors.hide();                                // hides shirt colors when page loads
+$('input[type=checkbox]').prop('checked',false);                        // unchecks all checkboxes if page is refreshed
+$('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
+$(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" select option to ensure form is filled out properly
+
+shirtColors.hide();                                                    // hides shirt colors when page loads
+paypalDiv.hide();                                                      //hides paypal div
+bitcoinDiv.hide();                                                   //hides Bitcoin div
 
 // Puts the focus on name input when page is loaded
 $('#name').focus();
@@ -104,31 +113,46 @@ checkBoxCollection.on('change', function(){           // function to add the val
   activityCosts.val(cost);                          //updates the activtyCosts input value
 });
 
-
-
 // *********** "Payment Info" section ***************
-/*
-Payment option in the select menu should match the payment option displayed on the page.
-  When a user selects the "PayPal" payment option, the PayPal information should display,
-and the credit card and “Bitcoin” information should be hidden.
-  When a user selects the "Bitcoin" payment option, the Bitcoin information should display,
-and the credit card and “PayPal” information should be hidden.
 
-NOTE: The user should not be able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
-*/
-const paymentMethod = $('#payment option');
-const paypalDiv = $('#credit-card').next();
-const bitcoinDiv = $('#credit-card').next().next();
-$('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
-paypalDiv.hide();                                                      //hides paypal div
-bitcoinDiv.hide();                                                   //hides Bitcoin div
-
-paymentMethod.on('select', function(){
-  for (let i = 0; i < paymentMethod.length; i++){
-    if ($(paymentMethod[i]).is('selected', true)){
-      if (i === 0){
+paymentMethod.on('click', function(){               //iterates through selectable payment options
+  for (let i = 1; i < paymentMethod.length; i++){
+    if ($(paymentMethod[i]).is(':selected')){
+      if (i === 1){                                 //hides and shows appropriate information for each payment option
+        $('.credit-card').show();
+        bitcoinDiv.hide();
+        paypalDiv.hide();
+      }else if (i === 2){
         $('.credit-card').hide();
+        paypalDiv.show();
+        bitcoinDiv.hide();
+      }else if (i === 3){
+        $('.credit-card').hide();
+        bitcoinDiv.show();
+        paypalDiv.hide();
       }
     }
   }
 });
+
+
+// ************* Form validation **************
+/*
+If any of the following validation errors exist, prevent the user from submitting the form:
+  -  Name field can't be blank.
+  -  Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address,
+        just that it's formatted like one: dave@teamtreehouse.com for example.
+  -  User must select at least one checkbox under the "Register for Activities" section of the form.
+  -  If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number,
+        a Zip Code, and a 3 number CVV value before the form can be submitted.
+  -  Credit Card field should only accept a number between 13 and 16 digits.
+  -  The Zip Code field should accept a 5-digit number.
+  -  The CVV should only accept a number that is exactly 3 digits long.
+
+NOTE: Don't rely on the built in HTML5 validation by adding the required attribute to your DOM elements. You need to actually create your own custom validation checks and error messages.
+
+NOTE: Avoid using snippets or plugins for this project. To get the most out of the experience, you should be writing all of your own code for your own custom validation.
+
+NOTE: Make sure your validation is only validating Credit Card info if Credit Card is the selected payment method.
+
+*/
