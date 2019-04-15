@@ -5,16 +5,29 @@
 const otherInput = $('#other-title');
 const design = $('#design');
 const shirtColors = $('#color option');
+const checkBoxCollection = $(':checkbox');
+const js_frameworks = $('[name="js-frameworks"]');
+const express = $('[name="express"]');
+const js_libs = $('[name="js-libs"]');
+const node = $('[name="node"]');
+const activitiesFieldSet = $('.activities');
+activitiesFieldSet.append(`<p>
+    <label>Total: $
+      <input type="text" name="total" value="0.00" readonly="readonly">
+    </label>
+    </p>`);                                         // appends  a readonly text field for total costs
+let activityCosts = $('[name="total"]').val(0);     //sets the start value of activity costs to 0 because no workships are selected
 
-shirtColors.hide();                       // hides shirt colors when page loads
+$('input[type=checkbox]').prop('checked',false);    // unchecks all checkboxes if page is refreshed
+shirtColors.hide();                                // hides shirt colors when page loads
 
 // Puts the focus on name input when page is loaded
 $('#name').focus();
 
 // ****** Job role Section ********
-otherInput.hide();                     // hides the other-title job input field
+otherInput.hide();                               // hides the other-title job input field
 
-$('#title').on('click', function(){       // function shows input if other is selected and hides it if not
+$('#title').on('click', function(){             // function shows input if other is selected and hides it if not
     if ($('#title').val() === 'other') {
       otherInput.show();
     }else{
@@ -48,42 +61,7 @@ design.on('click', function (){                     // function to hide/show col
  }
 });
 
-
 // ***** ”Register for Activities” section *******
-
-/*
--Some events are at the same day and time as others. If the user selects a workshop, don't allow selection of a
-  workshop at the same day and time -- you should disable the checkbox and visually indicate that the workshop
-  in the competing time slot isn't available.
--When a user unchecks an activity, make sure that competing activities (if there are any) are no longer disabled.
--As a user selects activities, a running total should display below the list of checkboxes.
-  For example, if the user selects "Main Conference", then Total: $200 should appear.
-  If they add 1 workshop, the total should change to Total: $300.
-*/
-
-const checkBoxCollection = $(':checkbox');
-const activityLabels = $('.activities label input');
-const mainConference = $('[name="all"]');
-mainConference.val(200);
-const js_frameworks = $('[name="js-frameworks"]');
-js_frameworks.val(100);
-const express = $('[name="express"]');
-express.val(100);
-const js_libs = $('[name="js-libs"]');
-js_libs.val(100);
-const node = $('[name="node"]');
-node.val(100);
-const build_tools = $('[name="build-tools"]');
-build_tools.val(100);
-const npm = $('[name="npm"]');
-npm.val(100);
-const activitiesFieldSet = $('.activities');
-
-
-activitiesFieldSet.append(`<p>
-    <label>Total: $ <input type="text" name="total" value="0.00" readonly="readonly"></label>
-    </p>`);
-let activityCosts = $('[name="total"]').val(0);
 
 checkBoxCollection.on('change', function(){         //fucntion to disable conflicting times for workshops
   if (js_frameworks.is(':checked')){                //if js_frameworks is checked then express workship is disabled and checkbox is hidden
@@ -113,28 +91,44 @@ checkBoxCollection.on('change', function(){         //fucntion to disable confli
 });
 
 checkBoxCollection.on('change', function(){           // function to add the value of checkbox to activityCosts
-  if ($(this).is(':checked')){
-    activityCosts += $(this).val();                 //ideally should add the value to activty costs
-  }else{
-    activityCosts -= $(this).val();               //ideally should subtract value if unchecked 
+  let cost = 0;                                       // sets a variable that sets cost
+  for (let i = 0; i < checkBoxCollection.length; i++){    // itterates through checkboxes to check if they are checked
+    if ($(checkBoxCollection[i]).is(':checked')){
+      if (i === 0){                                   //if i === 0 then the cost is 200 because refrences main conference
+        cost += 200;
+      }else{                                          // if any other checkbox is checked then adds 100 to total
+        cost += 100;
+    }
   }
+}
+  activityCosts.val(cost);                          //updates the activtyCosts input value
+});
 
-  // activityCosts = 0;
-  // if (mainConference.is(':checked')){
-  //   activityCosts += 200;
-  // }else if (mainConference.is(':checked') === false){
-  //   activityCosts -= 200;
-  // }
-  // if (js_frameworks.is(':checked')
-  //       || express.is(':checked')
-  //       || js_libs.is(':checked')
-  //       || node.is(':checked')
-  //       || build_tools.is(':checked')
-  //       || npm.is(':checked')) {
-  //          activityCosts += 100;
-  //    }else{
-  //    }
-  // if (activityCosts < 0){
-  //   activityCosts = 0;
-  // }
+
+
+// *********** "Payment Info" section ***************
+/*
+Payment option in the select menu should match the payment option displayed on the page.
+  When a user selects the "PayPal" payment option, the PayPal information should display,
+and the credit card and “Bitcoin” information should be hidden.
+  When a user selects the "Bitcoin" payment option, the Bitcoin information should display,
+and the credit card and “PayPal” information should be hidden.
+
+NOTE: The user should not be able to select the "Select Payment Method" option from the payment select menu, because the user should not be able to submit the form without a chosen payment option.
+*/
+const paymentMethod = $('#payment option');
+const paypalDiv = $('#credit-card').next();
+const bitcoinDiv = $('#credit-card').next().next();
+$('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
+paypalDiv.hide();                                                      //hides paypal div
+bitcoinDiv.hide();                                                   //hides Bitcoin div
+
+paymentMethod.on('select', function(){
+  for (let i = 0; i < paymentMethod.length; i++){
+    if ($(paymentMethod[i]).is('selected', true)){
+      if (i === 0){
+        $('.credit-card').hide();
+      }
+    }
+  }
 });
