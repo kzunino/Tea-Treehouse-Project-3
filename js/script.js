@@ -156,3 +156,15 @@ NOTE: Avoid using snippets or plugins for this project. To get the most out of t
 NOTE: Make sure your validation is only validating Credit Card info if Credit Card is the selected payment method.
 
 */
+
+const nameField = $('#name');
+
+function isNameBlank(){
+    if (nameField.val() === '' || ' '){
+      $(nameField.css({"border":"1px solid red"}));
+}
+};
+
+// isNameBlank();
+
+function
