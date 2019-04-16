@@ -14,13 +14,13 @@ const activitiesFieldSet = $('.activities');
 const paymentMethod = $('#payment option');
 const paypalDiv = $('#credit-card').next();
 const bitcoinDiv = $('#credit-card').next().next();
-let activityCosts = $('[name="total"]').val(0);                          //sets the start value of activity costs to 0 because no workships are selected
 
 activitiesFieldSet.append(`<p>
     <label>Total: $
       <input type="text" name="total" value="0.00" readonly="readonly">
     </label>
     </p>`);                                                             // appends a 'readonly' text field for total costs of selected workshops
+    let activityCosts = $('[name="total"]').val(0);                          //sets the start value of activity costs to 0 because no workships are selected
 
 $('input[type=checkbox]').prop('checked',false);                        // unchecks all checkboxes if page is refreshed
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
@@ -161,10 +161,29 @@ const nameField = $('#name');
 
 function isNameBlank(){
     if (nameField.val() === '' || ' '){
-      $(nameField.css({"border":"1px solid red"}));
+      nameField.css({"border":"1px solid red"});
 }
 };
 
-// isNameBlank();
+//isNameBlank();
 
-function
+const email = $('#mail');
+
+function validEmailFormat(email){
+    return /[^@*$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
+};
+
+
+function oneCheckboxChecked(){
+  if ($(':checkbox:checked').length === 0){                      //if no checkboxes are checked alert pops up
+    alert('Please select a workshop');
+  }
+};
+
+//oneCheckboxChecked();
+
+function isPaymentCredit(){
+  if ($(paymentMethod[1]).is(':selected')){
+  //  function / /.test();
+  }
+}
