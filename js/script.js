@@ -182,8 +182,10 @@ function oneCheckboxChecked(){
 
 //oneCheckboxChecked();
 
+const creditCardField = $('#cc-num');
+
 function isPaymentCredit(){
   if ($(paymentMethod[1]).is(':selected')){
-  //  function / /.test();
+  function /^\d{13,16}$/.test();                                // validates that field contains 13-16 numerals
   }
 }
