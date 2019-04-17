@@ -166,23 +166,23 @@ nameField.blur(function(){                                      //.blur waits to
   isNameBlank();
 });
 
-const email = $('#mail');
-
-function validEmailFormat(email){
-    return /^[^@*$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
-};
-
-function isEmailValid(){
-    if (validEmailFormat(email) === false || email.val() !== ''){
-      email.css({"border": "1px solid red"});
-    }else{
-      email.css({"border": "1px solid green"});
-    }
-};
-
-email.blur(function(){                                      //.blur waits to test input after client leaves input
-  isEmailValid();
-});
+// const email = $('#mail');
+//
+// function validEmailFormat(email){
+//     return /^[^@*$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
+// };
+//
+// function isEmailValid(){
+//     if (validEmailFormat(email)){
+//       email.css({"border": "1px solid red"});
+//     }else{
+//       email.css({"border": "1px solid green"});
+//     }
+// };
+//
+// email.blur(function(){                                      //.blur waits to test input after client leaves input
+//   isEmailValid();
+// });
 
 function oneCheckboxChecked(){
   if ($(':checkbox:checked').length === 0){                      //if no checkboxes are checked alert pops up
