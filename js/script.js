@@ -174,9 +174,9 @@ nameField.blur(function(){                                      //.blur waits to
 //
 // function isEmailValid(){
 //     if (validEmailFormat(email)){
-//       email.css({"border": "1px solid red"});
-//     }else{
 //       email.css({"border": "1px solid green"});
+//     }else{
+//       email.css({"border": "1px solid red"});
 //     }
 // };
 //
