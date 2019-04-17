@@ -169,19 +169,20 @@ nameField.blur(function(){                                      //.blur waits to
 const email = $('#mail');
 
 function validEmailFormat(email){
-    return /^[^@*$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
+    return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
 };
-
-function isEmailValid(){
-    if (validEmailFormat(email)){
-      email.css({"border": "1px solid green"});
-    }else{
-      email.css({"border": "1px solid red"});
-    }
-};
-
+//
+// function isEmailValid(){
+//     if (validEmailFormat(email)){
+//       email.css({"border": "1px solid green"});
+//     }else{
+//       email.css({"border": "1px solid red"});
+//     }
+// };
+//
 email.blur(function(){                                      //.blur waits to test input after client leaves input
-  isEmailValid();
+  console.log(validEmailFormat(email));
+//  isEmailValid();
 });
 
 function oneCheckboxChecked(){
@@ -192,21 +193,22 @@ function oneCheckboxChecked(){
 
 //oneCheckboxChecked();
 
-const creditCardValidation = $('#cc-num');
-const zipcodeValidation = $('#zip');
-const cvvValidation = $('#cvv')
+const creditCardNumber = $('#cc-num');
+const zipcode = $('#zip');
+const cvv = $('#cvv')
 const creditCardInformation = $('#credit-card div')
 
-function creditCardNumberValid(creditCardValidation){
-  return /^\d{13,16}$/.test(creditCardValidation);                                // validates that field contains 13-16 numerals
+function creditCardNumberValid(creditCardNumber){
+  return /^\d{13,16}$/.test(creditCardNumber);                                // validates that field contains 13-16 numerals
+}
+console.log(creditCardNumberValid(creditCardNumber));
+
+function zipcodeNumberValid(zipcode){
+  return /^\d{5}$/.test(zipcode);                                // validates that zipcode field contains 5 numerals
 }
 
-function zipcodeNumberValid(zipcodeValidation){
-  return /^\d{5}$/.test(zipcodeValidation);                                // validates that zipcode field contains 5 numerals
-}
-
-function cvvNumberValid(cvvValidation){
-  return /^\d{3}$/.test(cvvValidation);                                // validates that cvv field contains 3 numerals
+function cvvNumberValid(cvv){
+  return /^\d{3}$/.test(cvv);                                // validates that cvv field contains 3 numerals
 }
 
 function isPaymentCredit(){                                           //itterates through credit card payment fields for validation
@@ -231,5 +233,5 @@ function isPaymentCredit(){                                           //itterate
 // })
 
 //creditCardNumberValid(creditCardInformation);
-zipcodeNumberValid(zipcodeValidation);
-cvvNumberValid(cvvValidation);
+// zipcodeNumberValid(zipcode);
+// cvvNumberValid(cvv);
