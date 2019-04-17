@@ -198,10 +198,13 @@ const zipcode = $('#zip');
 const cvv = $('#cvv')
 const creditCardInformation = $('#credit-card div')
 
-function creditCardNumberValid(creditCardNumber){
-  return /^\d{13,16}$/.test(creditCardNumber);                                // validates that field contains 13-16 numerals
+function creditCardValidation(creditCardNumber){
+  return /^\d{13, 16}$/.test(creditCardNumber);                                // validates that field contains 13-16 numerals
 }
-console.log(creditCardNumberValid(creditCardNumber));
+creditCardNumber.blur(function(){                                      //.blur waits to test input after client leaves input
+  console.log(validEmailFormat(email));
+//  isEmailValid();
+});
 
 function zipcodeNumberValid(zipcode){
   return /^\d{5}$/.test(zipcode);                                // validates that zipcode field contains 5 numerals
