@@ -162,7 +162,7 @@ function isNameBlank(){
     }
 };
 
-nameField.blur(function(){                                      //.blur waits to test input after client leaves input
+nameField.blur(function(){                                      //.blur waits to test input after field loses focus
   isNameBlank();
 });
 
@@ -171,19 +171,25 @@ const email = $('#mail');
 function validEmailFormat(email){
     return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
 };
-//
-// function isEmailValid(){
-//     if (validEmailFormat(email)){
-//       email.css({"border": "1px solid green"});
-//     }else{
-//       email.css({"border": "1px solid red"});
-//     }
-// };
-//
-email.blur(function(){                                      //.blur waits to test input after client leaves input
-  console.log(validEmailFormat(email));
-//  isEmailValid();
+
+function isEmailValid(){
+    if (validEmailFormat(email)){
+      email.css({"border": "1px solid green"});
+    }else{
+      email.css({"border": "1px solid red"});
+    }
+};
+
+
+
+email.on('keyup', function(){
+  isEmailValid();
 });
+
+// email.blur(function(){                                      //.blur waits to test input after client leaves input
+//   console.log(validEmailFormat(email));
+// //  validEmailFormat);
+// });
 
 function oneCheckboxChecked(){
   if ($(':checkbox:checked').length === 0){                      //if no checkboxes are checked alert pops up
@@ -195,12 +201,13 @@ function oneCheckboxChecked(){
 
 const creditCardNumber = $('#cc-num');
 const zipcode = $('#zip');
-const cvv = $('#cvv')
-const creditCardInformation = $('#credit-card div')
+const cvv = $('#cvv');
+const creditCardInformation = $('#credit-card div');
 
 function creditCardValidation(creditCardNumber){
   return /^\d{13, 16}$/.test(creditCardNumber);                                // validates that field contains 13-16 numerals
 }
+
 creditCardNumber.blur(function(){                                      //.blur waits to test input after client leaves input
   console.log(validEmailFormat(email));
 //  isEmailValid();
