@@ -22,9 +22,11 @@
         <legend>Basic Info</legend>
 
         <label for="name">Name:</label>
+        <span class="validator">Please do not leave name field blank.</span>
         <input type="text" id="name" name="user_name">
 
         <label for="mail">Email:</label>
+        <span class="validator">Please make sure email format is valid.</span>
         <input type="email" id="mail" name="user_email">
 
         <label for="title">Job Role</label>
@@ -77,6 +79,8 @@
 
       <fieldset class="activities">
         <legend>Register for Activities</legend>
+        <span class="validator">Please make sure to select at least one workshop.</span>
+        <br>
         <label><input type="checkbox" name="all"> Main Conference — $200</label>
         <label><input type="checkbox" name="js-frameworks"> JavaScript Frameworks Workshop — Tuesday 9am-12pm, $100</label>
         <label><input type="checkbox" name="js-libs"> JavaScript Libraries Workshop — Tuesday 1pm-4pm, $100</label>
@@ -102,19 +106,22 @@
 
           <div class="col-6 col">
             <label for="cc-num">Card Number:</label>
+            <span class="validator">Invalid Number.</span>
         	  <input id="cc-num" name="user_cc-num" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="zip">Zip Code:</label>
+            <span class="validator">Invalid ZIP Code.</span>
             <input id="zip" name="user_zip" type="text">
           </div>
 
           <div class="col-3 col">
             <label for="cvv">CVV:</label>
+            <span class="validator">Invalid CVV.</span>
             <input id="cvv" name="user_cvv" type="text">
           </div>
-
+          <br>
           <label for="exp-month">Expiration Date:</label>
           <select id="exp-month" name="user_exp-month">
             <option value="1">1 - January</option>

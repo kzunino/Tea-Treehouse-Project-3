@@ -113,6 +113,10 @@ button:hover {
 	background: #184c62;
 }
 
+span.validator {
+  color: #e82c2c;
+}
+
 /* =================================
   Page Styles
 ==================================== */

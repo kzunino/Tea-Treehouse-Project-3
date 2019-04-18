@@ -2,6 +2,7 @@
 
 // Global Variables
 
+const validatorSpans = $('.validator');
 const otherInput = $('#other-title');
 const design = $('#design');
 const shirtColors = $('#color option');
@@ -21,6 +22,7 @@ $('input[type=checkbox]').prop('checked',false);                        // unche
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
 $(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" select option to ensure form is filled out properly
 
+validatorSpans.hide();                                                  //hides validator helper messages
 shirtColors.hide();                                                    // hides shirt colors when page loads
 paypalDiv.hide();                                                      //hides paypal div
 bitcoinDiv.hide();                                                   //hides Bitcoin div
@@ -114,15 +116,15 @@ paymentMethod.on('click', function(){               //iterates through selectabl
   for (let i = 1; i < paymentMethod.length; i++){
     if ($(paymentMethod[i]).is(':selected')){
       if (i === 1){                                 //hides and shows appropriate information for each payment option
-        $('.credit-card').show();
+        $('.credit-card').show().prop('disabled', false);
         bitcoinDiv.hide();
         paypalDiv.hide();
       }else if (i === 2){
-        $('.credit-card').hide();
+        $('.credit-card').hide().prop('disabled', true);
         paypalDiv.show();
         bitcoinDiv.hide();
       }else if (i === 3){
-        $('.credit-card').hide();
+        $('.credit-card').hide().prop('disabled', true);
         bitcoinDiv.show();
         paypalDiv.hide();
       }
@@ -152,24 +154,26 @@ NOTE: Make sure your validation is only validating Credit Card info if Credit Ca
 
 */
 
-const nameField = $('#name');
+
+let nameField = $('#name');
 
 function isNameBlank(){
-    if (nameField.val() === ''){
+    if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
       nameField.css({"border": "1px solid red"});
+      nameField.append($('<span>Please do not leave name field blank</span>'));
     }else{
       nameField.css({"border": "1px solid green"});
     }
 };
 
-nameField.blur(function(){                                      //.blur waits to test input after field loses focus
+nameField.on('keyup', function(){
   isNameBlank();
 });
 
-const email = $('#mail');
+let email = $('#mail');
 
 function validEmailFormat(email){
-    return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email);             //checks to see if email is valid.
+    return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email.val());             //checks to see if email value is valid.
 };
 
 function isEmailValid(){
@@ -180,68 +184,95 @@ function isEmailValid(){
     }
 };
 
-
-
 email.on('keyup', function(){
   isEmailValid();
 });
 
-// email.blur(function(){                                      //.blur waits to test input after client leaves input
-//   console.log(validEmailFormat(email));
-// //  validEmailFormat);
-// });
+let isCheckboxChecked = false;                                             // when page loads default is false, unitl 1 checkbox is checked
 
-function oneCheckboxChecked(){
-  if ($(':checkbox:checked').length === 0){                      //if no checkboxes are checked alert pops up
-    alert('Please select a workshop');
+function oneCheckboxChecked(){                                            //if no checkboxes checked, value is 0 and false
+  if ($(':checkbox:checked').length === 0){
+    isCheckboxChecked = false;
+  }else{
+    isCheckboxChecked = true;
   }
 };
 
-//oneCheckboxChecked();
+checkBoxCollection.on('click', function(){
+  oneCheckboxChecked();
+});
 
-const creditCardNumber = $('#cc-num');
-const zipcode = $('#zip');
-const cvv = $('#cvv');
-const creditCardInformation = $('#credit-card div');
+
+let creditCardNumber = $('#cc-num');
+let zipcode = $('#zip');
+let cvv = $('#cvv');
+let creditCardInformation = $('#credit-card div');
 
 function creditCardValidation(creditCardNumber){
-  return /^\d{13, 16}$/.test(creditCardNumber);                                // validates that field contains 13-16 numerals
-}
+  return /^\d{13,16}$/.test(creditCardNumber.val());                                // validates that field contains 13-16 numerals
+};
 
-creditCardNumber.blur(function(){                                      //.blur waits to test input after client leaves input
-  console.log(validEmailFormat(email));
-//  isEmailValid();
+function isCreditNumberValid(){
+    if (creditCardValidation(creditCardNumber)){
+      creditCardNumber.css({"border": "1px solid green"});
+    }else{
+      creditCardNumber.css({"border": "1px solid red"});
+    }
+};
+
+creditCardNumber.on('keyup', function(){
+  isCreditNumberValid();
 });
 
 function zipcodeNumberValid(zipcode){
-  return /^\d{5}$/.test(zipcode);                                // validates that zipcode field contains 5 numerals
+  return /^\d{5}$/.test(zipcode.val());                                // validates that zipcode field contains 5 numerals
 }
 
+function isZipcodeValid(){
+    if (zipcodeNumberValid(zipcode)){
+      zipcode.css({"border": "1px solid green"});
+    }else{
+      zipcode.css({"border": "1px solid red"});
+    }
+};
+
+zipcode.on('keyup', function(){
+  isZipcodeValid();
+});
+
 function cvvNumberValid(cvv){
-  return /^\d{3}$/.test(cvv);                                // validates that cvv field contains 3 numerals
+  return /^\d{3}$/.test(cvv.val());                                // validates that cvv field contains 3 numerals
 }
+
+function isCvvValid(){
+    if (cvvNumberValid(cvv)){
+      cvv.css({"border": "1px solid green"});
+    }else{
+      cvv.css({"border": "1px solid red"});
+    }
+};
+
+cvv.on('keyup', function(){
+  isCvvValid();
+});
 
 function isPaymentCredit(){                                           //itterates through credit card payment fields for validation
   if ($(paymentMethod[1]).is(':selected')){
      for (let i = 0; i < creditCardInformation.length; i++){
        if ($(creditCardInformation[i]) === 0){
-         creditCardNumberValid(creditCardInformation);
+         isCreditNumberValid(creditCardNumber);
        }else if ($(creditCardInformation[i]) === 1){
-         zipcodeNumberValid(zipcodeValidation);
+         isZipcodeValid(zipcode);
        }else{
-         cvvNumberValid(cvvValidation);
+         isCvvValid(cvv);
        }
      }
 }
 };
 
+const submitButton = $('button[type="submit"]');
 
 
-// creditCardValidation.on('keyup', function(){
-//   creditCardNumberValid(creditCardInformation);
-//
-// })
-
-//creditCardNumberValid(creditCardInformation);
+// creditCardNumberValid(creditCardInformation);
 // zipcodeNumberValid(zipcode);
 // cvvNumberValid(cvv);
