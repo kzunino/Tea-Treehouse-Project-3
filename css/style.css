@@ -93,7 +93,7 @@ input {
 
 input:focus {
 	background: #b2b2b2;
-	border-color: #dbdad9;
+	border-color: #e4e2e1;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -115,7 +115,7 @@ button:hover {
 }
 
 span.validator {
-  color: #e82c2c;
+  color: #8a1818;
 }
 
 /* =================================

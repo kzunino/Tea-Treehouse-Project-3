@@ -24,7 +24,7 @@ const paypalDiv = $('#credit-card').next();
 const bitcoinDiv = $('#credit-card').next().next();
 
 const nameFieldError = '<span class="validator" id="name_validator_message">Please do not leave name field blank.</span>';
-const emailFieldError = '<span class="validator" id="email_validator_message">Please make sure email format contains an "@" and a ".".</span>';
+const emailFieldError = '<span class="validator" id="email_validator_message">Please enter a valid email address.</span>';
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
 const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use only numeral characters.</span>';
 const creditCardFieldError = '<span class="validator" id="cc_validator_message">Invalid Number.</span>'
@@ -218,18 +218,19 @@ function creditCardValidation(creditCardNumber){
   return /^\d{13,16}$/.test(creditCardNumber.val());                                // validates that field contains 13-16 numerals
 };
 
-function creditCardLetterError(creditCardNumber){
-  return /[a-z]/i.test(creditCardNumber.val());
+function creditCardNumeralError(creditCardNumber){
+  return /\D/.test(creditCardNumber.val());
 }
 
 function isCreditNumberValid(){
-    if (creditCardValidation(creditCardNumber)){
-      creditCardNumber.css({"border": "1px solid green"});
-    }else if (creditCardLetterError(creditCardNumber)){
-      creditCardNumber.css({"border": "1px solid red"})
-      $('#ccNANError').show();
-    }else if (creditCardLetterError(creditCardNumber) === false){
-      $('#ccNANError').hide();
+    if (creditCardValidation(creditCardNumber)
+     && creditCardNumber.val() !== ''
+     && creditCardNumeralError(creditCardNumber) === false){
+       creditCardNumber.css({"border": "1px solid green"})
+       $('#ccNANError').hide();
+    }else if (creditCardNumeralError(creditCardNumber)){
+        creditCardNumber.css({"border": "1px solid red"})
+        $('#ccNANError').show();
     }else{
       creditCardNumber.css({"border": "1px solid red"});
     }
@@ -272,7 +273,7 @@ cvv.on('keyup keydown', function(){
 });
 
 
-submitButton.on('click', function(e){
+submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
     if ($(paymentMethod[1]).is(':selected')
         && isNameBlank()
         && isEmailValid()
@@ -280,7 +281,7 @@ submitButton.on('click', function(e){
         && isCreditNumberValid()
         && isZipcodeValid()
         && isCvvValid()){
-    }else if ($(paymentMethod[1]).prop(':selected', false)
+    }else if ($(paymentMethod[1]).prop(':selected', false)                // if payment method is not selected, then only name, email, and checkbox must be validated
         && isNameBlank()
         && isEmailValid()
         && oneCheckboxChecked()){
