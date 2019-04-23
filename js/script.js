@@ -2,19 +2,46 @@
 
 // Global Variables
 
-const validatorSpans = $('.validator');
 const otherInput = $('#other-title');
 const design = $('#design');
+const shirtColorsDiv = $('#colors-js-puns');
 const shirtColors = $('#color option');
 const checkBoxCollection = $(':checkbox');
 const js_frameworks = $('[name="js-frameworks"]');
 const express = $('[name="express"]');
 const js_libs = $('[name="js-libs"]');
 const node = $('[name="node"]');
+const nameField = $('#name');
+const email = $('#mail');
+const isCheckboxChecked = false;                                             // when page loads default is false, unitl 1 checkbox is checked
+const creditCardNumber = $('#cc-num');
+const zipcode = $('#zip');
+const cvv = $('#cvv');
+const creditCardInformation = $('#credit-card div');
 const activitiesFieldSet = $('.activities');
 const paymentMethod = $('#payment option');
 const paypalDiv = $('#credit-card').next();
 const bitcoinDiv = $('#credit-card').next().next();
+
+const nameFieldError = '<span class="validator" id="name_validator_message">Please do not leave name field blank.</span>';
+const emailFieldError = '<span class="validator" id="email_validator_message">Please make sure email format contains an "@" and a ".".</span>';
+const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
+const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use only numeral characters.</span>';
+const creditCardFieldError = '<span class="validator" id="cc_validator_message">Invalid Number.</span>'
+const zipcodeFieldError = '<span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span>'
+const cvvFieldError = '<span class="validator" id="cvv_validator_message">Invalid CVV.</span>'
+const submitButton = $('button[type="submit"]');
+    nameField.before(nameFieldError);
+    email.before(emailFieldError);
+    activitiesFieldSet.prepend(workshopFieldError);
+    creditCardNumber.before(creditCardFieldError);
+    creditCardNumber.before(creditCardCharacterError);
+    zipcode.before(zipcodeFieldError);
+    cvv.before(cvvFieldError);
+
+const validatorSpans = $('.validator');
+
+validatorSpans.hide();
 
 let activityCosts = $('[name="total"]').val(0);                          //sets the start value of activity costs to 0 because no workships are selected
 
@@ -22,8 +49,8 @@ $('input[type=checkbox]').prop('checked',false);                        // unche
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
 $(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" select option to ensure form is filled out properly
 
-validatorSpans.hide();                                                  //hides validator helper messages
-shirtColors.hide();                                                    // hides shirt colors when page loads
+shirtColorsDiv.hide();
+// shirtColors.hide();                                                    // hides shirt colors when page loads
 paypalDiv.hide();                                                      //hides paypal div
 bitcoinDiv.hide();                                                   //hides Bitcoin div
 
@@ -44,6 +71,7 @@ $('#title').on('click', function(){             // function shows input if other
 // ******* T-shirt information Section ***********
 
 design.on('click', function (){                     // function to hide/show colors for specific designs
+  shirtColorsDiv.show();                            //shows color optionsDiv if selected
   if (design.val() === 'js puns'){                  //if statement checks value for design string
     shirtColors.each(function(index, colorOption){  //uses Jquery loop to read index values of color options
       if (index <= 2){                              //either shows or hids depending on which design is selected.
@@ -54,6 +82,7 @@ design.on('click', function (){                     // function to hide/show col
   });
 }
   if (design.val() === 'heart js'){
+    shirtColorsDiv.show();
     shirtColors.each(function(index, colorOption){
       if (index > 2){
         $(colorOption).show();
@@ -63,7 +92,7 @@ design.on('click', function (){                     // function to hide/show col
     });
   }
  if (design.val() === 'select theme'){              //if select theme is selected, hides all color options
-   shirtColors.hide();
+   shirtColorsDiv.hide();                           
  }
 });
 
@@ -134,43 +163,22 @@ paymentMethod.on('click', function(){               //iterates through selectabl
 
 
 // ************* Form validation **************
-/*
-If any of the following validation errors exist, prevent the user from submitting the form:
-  -  Name field can't be blank.
-  -  Email field must be a validly formatted e-mail address (you don't have to check that it's a real e-mail address,
-        just that it's formatted like one: dave@teamtreehouse.com for example.
-  -  User must select at least one checkbox under the "Register for Activities" section of the form.
-  -  If the selected payment option is "Credit Card," make sure the user has supplied a Credit Card number,
-        a Zip Code, and a 3 number CVV value before the form can be submitted.
-  -  Credit Card field should only accept a number between 13 and 16 digits.
-  -  The Zip Code field should accept a 5-digit number.
-  -  The CVV should only accept a number that is exactly 3 digits long.
 
-NOTE: Don't rely on the built in HTML5 validation by adding the required attribute to your DOM elements. You need to actually create your own custom validation checks and error messages.
-
-NOTE: Avoid using snippets or plugins for this project. To get the most out of the experience, you should be writing all of your own code for your own custom validation.
-
-NOTE: Make sure your validation is only validating Credit Card info if Credit Card is the selected payment method.
-
-*/
-
-
-let nameField = $('#name');
 
 function isNameBlank(){
     if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
       nameField.css({"border": "1px solid red"});
-      nameField.append($('<span>Please do not leave name field blank</span>'));
+      $('#name_validator_message').show();
     }else{
       nameField.css({"border": "1px solid green"});
-    }
+      $('#name_validator_message').hide();
+        }
 };
 
-nameField.on('keyup', function(){
+nameField.on('keydown keyup', function(){
   isNameBlank();
 });
 
-let email = $('#mail');
 
 function validEmailFormat(email){
     return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email.val());             //checks to see if email value is valid.
@@ -179,22 +187,25 @@ function validEmailFormat(email){
 function isEmailValid(){
     if (validEmailFormat(email)){
       email.css({"border": "1px solid green"});
+      $("#email_validator_message").hide();
     }else{
       email.css({"border": "1px solid red"});
+      $("#email_validator_message").show();
+
     }
 };
 
-email.on('keyup', function(){
+email.on('keydown keyup', function(){
   isEmailValid();
 });
-
-let isCheckboxChecked = false;                                             // when page loads default is false, unitl 1 checkbox is checked
 
 function oneCheckboxChecked(){                                            //if no checkboxes checked, value is 0 and false
   if ($(':checkbox:checked').length === 0){
     isCheckboxChecked = false;
+    $('#workshop_validator_message').show();
   }else{
     isCheckboxChecked = true;
+    $('#workshop_validator_message').hide();
   }
 };
 
@@ -203,24 +214,28 @@ checkBoxCollection.on('click', function(){
 });
 
 
-let creditCardNumber = $('#cc-num');
-let zipcode = $('#zip');
-let cvv = $('#cvv');
-let creditCardInformation = $('#credit-card div');
-
 function creditCardValidation(creditCardNumber){
   return /^\d{13,16}$/.test(creditCardNumber.val());                                // validates that field contains 13-16 numerals
 };
 
+function creditCardLetterError(creditCardNumber){
+  return /[a-z]/i.test(creditCardNumber.val());
+}
+
 function isCreditNumberValid(){
     if (creditCardValidation(creditCardNumber)){
       creditCardNumber.css({"border": "1px solid green"});
+    }else if (creditCardLetterError(creditCardNumber)){
+      creditCardNumber.css({"border": "1px solid red"})
+      $('#ccNANError').show();
+    }else if (creditCardLetterError(creditCardNumber) === false){
+      $('#ccNANError').hide();
     }else{
       creditCardNumber.css({"border": "1px solid red"});
     }
 };
 
-creditCardNumber.on('keyup', function(){
+creditCardNumber.on('keyup keydown', function(){
   isCreditNumberValid();
 });
 
@@ -236,7 +251,7 @@ function isZipcodeValid(){
     }
 };
 
-zipcode.on('keyup', function(){
+zipcode.on('keyup keydown', function(){
   isZipcodeValid();
 });
 
@@ -252,27 +267,23 @@ function isCvvValid(){
     }
 };
 
-cvv.on('keyup', function(){
+cvv.on('keyup keydown', function(){
   isCvvValid();
 });
 
-function isPaymentCredit(){                                           //itterates through credit card payment fields for validation
-  if ($(paymentMethod[1]).is(':selected')){
-     for (let i = 0; i < creditCardInformation.length; i++){
-       if ($(creditCardInformation[i]) === 0){
-         isCreditNumberValid(creditCardNumber);
-       }else if ($(creditCardInformation[i]) === 1){
-         isZipcodeValid(zipcode);
-       }else{
-         isCvvValid(cvv);
-       }
-     }
-}
-};
 
-const submitButton = $('button[type="submit"]');
-
-
-// creditCardNumberValid(creditCardInformation);
-// zipcodeNumberValid(zipcode);
-// cvvNumberValid(cvv);
+submitButton.on('click', function(e){
+    if (isNameBlank()
+        && isEmailValid()
+        && oneCheckboxChecked()){
+    }else if ($(paymentMethod[1]).is(':selected')
+        && isEmailValid()
+        && isZipcodeValid()
+        && isCvvValid()){
+    }else if ($(paymentMethod[1]).is(':selected', false)){
+        return true;
+    }else{
+          e.preventDefault();
+          alert("Please make sure to fill out form correctly")
+        }
+    });
