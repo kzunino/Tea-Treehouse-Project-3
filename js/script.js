@@ -28,7 +28,7 @@ const nameFieldError = '<span class="validator" id="name_validator_message">Plea
 const emailFieldError = '<span class="validator" id="email_validator_message">Please enter a valid email address.</span>';
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
 const creditcardBlankError = '<span class="validator" id="cc_blank_validator">Please do not leave field blank.</span>';
-const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use only numeral characters.</span>';
+const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use numeral characters.</span>';
 const creditCardFieldError = '<span class="validator" id="cc_validator_message">Invalid Number.</span>'
 const zipcodeFieldError = '<span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span>'
 const cvvFieldError = '<span class="validator" id="cvv_validator_message">Invalid CVV.</span>'
@@ -172,7 +172,7 @@ paymentMethod.on('click', function(){               //iterates through selectabl
 function isNameBlank(){
     if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
       nameField.css({"border": "1px solid red"});
-      $('#name_validator_message').fadeIn(2000);
+      $('#name_validator_message').show();
       return false;
     }else{
       nameField.css({"border": "1px solid green"});
@@ -244,8 +244,8 @@ function isCreditNumberValid(){
      && creditCardNumeralError(creditCardNumber) === false){
        creditCardNumber.css({"border": "1px solid green"})
        return true;
-    }else if (creditCardNumeralError(creditCardNumber)){
-        creditCardNumber.css({"border": "1px solid red"})
+    }else if (creditCardNumeralError(creditCardNumber)){        //if credit card number has character or whitespace other than numeral reveals message
+        creditCardNumber.css({"border": "1px solid red"})       // and returns false
         $('#ccNANError').show();
         return false;
     }else if (creditCardNumber.val() === ''){                 // if field is blank, shows please don't leave blank message
@@ -317,7 +317,7 @@ submitButton.on('click', function(e){                                       //if
         && isEmailValid()
         && oneCheckboxChecked()){
     }else{
-          e.preventDefault();
-          alert("Please make sure you fill out all form fields!")
+        e.preventDefault();
+        alert("Please make sure you fill out all form fields!")
         }
     });
