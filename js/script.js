@@ -273,13 +273,19 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){
-    if (isNameBlank()
+    if ($(paymentMethod[1]).is(':selected')
+        && isNameBlank()
         && isEmailValid()
-        && oneCheckboxChecked()){
-    }else if ($(paymentMethod[1]).is(':selected')
+        && oneCheckboxChecked()
         && isCreditNumberValid()
         && isZipcodeValid()
         && isCvvValid()){
+          return true;
+    }else if ($(paymentMethod[1]).prop(':selected', false)
+        && isNameBlank()
+        && isEmailValid()
+        && oneCheckboxChecked()){
+        return true;
     }else{
           e.preventDefault();
           alert("Please make sure to fill out form correctly")
