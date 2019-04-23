@@ -303,8 +303,8 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
-    if ($(paymentMethod[1]).prop(':selected', true)                                 //paymentmethod[1] is credit card selector option
-        && isNameBlank()
+    if ($(paymentMethod[1]).prop(':selected', true)                         //paymentmethod[1] is credit card selector option
+        && isNameBlank()                                                    // all validation functions must return true to submit.
         && isEmailValid()
         && oneCheckboxChecked()
         && isCreditNumberValid()
