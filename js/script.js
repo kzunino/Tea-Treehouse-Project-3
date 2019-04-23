@@ -26,6 +26,7 @@ const bitcoinDiv = $('#credit-card').next().next();
 const nameFieldError = '<span class="validator" id="name_validator_message">Please do not leave name field blank.</span>';
 const emailFieldError = '<span class="validator" id="email_validator_message">Please enter a valid email address.</span>';
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
+const creditcardBlankError = '<span class="validator" id="cc_blank_validator">Please do not leave field blank.</span>';
 const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use only numeral characters.</span>';
 const creditCardFieldError = '<span class="validator" id="cc_validator_message">Invalid Number.</span>'
 const zipcodeFieldError = '<span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span>'
@@ -35,13 +36,14 @@ const submitButton = $('button[type="submit"]');
     email.before(emailFieldError);
     activitiesFieldSet.prepend(workshopFieldError);
     creditCardNumber.before(creditCardFieldError);
+    creditCardNumber.before(creditcardBlankError);
     creditCardNumber.before(creditCardCharacterError);
     zipcode.before(zipcodeFieldError);
     cvv.before(cvvFieldError);
 
 const validatorSpans = $('.validator');
 
-validatorSpans.hide();
+validatorSpans.hide();                                                    //hides the error messages
 
 let activityCosts = $('[name="total"]').val(0);                          //sets the start value of activity costs to 0 because no workships are selected
 
@@ -224,6 +226,7 @@ function creditCardNumeralError(creditCardNumber){
 
 function isCreditNumberValid(){
   $('#ccNANError').hide();                                      //hides cc not a number error message if error is fixed
+  $('#cc_blank_validator').hide();
     if (creditCardValidation(creditCardNumber)
      && creditCardNumber.val() !== ''
      && creditCardNumeralError(creditCardNumber) === false){
@@ -232,8 +235,13 @@ function isCreditNumberValid(){
     }else if (creditCardNumeralError(creditCardNumber)){
         creditCardNumber.css({"border": "1px solid red"})
         $('#ccNANError').fadeIn(2000);
+        return false;
+    }else if (creditCardNumber.val() === ''){
+        $('#cc_blank_validator').show();
+        return false;
     }else{
       creditCardNumber.css({"border": "1px solid red"});
+      return false;
     }
 };
 
@@ -251,7 +259,7 @@ function isZipcodeValid(){
       $('#zipcode_validator_message').hide();
     }else{
       zipcode.css({"border": "1px solid red"});
-      $('#zipcode_validator_message').fadeIn(2000);
+      $('#zipcode_validator_message').show();
     }
 };
 
@@ -269,8 +277,7 @@ function isCvvValid(){
       $('#cvv_validator_message').hide();
     }else{
       cvv.css({"border": "1px solid red"});
-      $('#cvv_validator_message').fadeIn(2000);
-
+      $('#cvv_validator_message').show();
     }
 };
 
