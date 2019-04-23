@@ -185,7 +185,7 @@ nameField.on('keydown keyup', function(){
 
 
 function validEmailFormat(email){
-    return /^[^@$#]+@[^@]+\.[a-z]+$/i.test(email.val());             //checks to see if email value is valid.
+    return /^[^@$#\s]+@[^@\s]+\.[^\s][a-z]+$/i.test(email.val());             //checks to see if email value is valid.
 };
 
 function isEmailValid(){
@@ -195,7 +195,7 @@ function isEmailValid(){
       return true;
     }else{
       email.css({"border": "1px solid red"});
-      $("#email_validator_message").fadeIn(2000);
+      $("#email_validator_message").show();
       return false;
 
     }
@@ -240,7 +240,7 @@ function isCreditNumberValid(){
        $('#ccNANError').hide();
     }else if (creditCardNumeralError(creditCardNumber)){
         creditCardNumber.css({"border": "1px solid red"})
-        $('#ccNANError').fadeIn(2000);
+        $('#ccNANError').show();
         return false;
     }else if (creditCardNumber.val() === ''){
         $('#cc_blank_validator').show();
@@ -295,6 +295,8 @@ cvv.on('keyup keydown', function(){
   isCvvValid();
 });
 
+// ********** Submit Button *************
+
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
     if ($(paymentMethod[1]).is(':selected')
@@ -310,6 +312,6 @@ submitButton.on('click', function(e){                                       //if
         && oneCheckboxChecked()){
     }else{
           e.preventDefault();
-          alert("Please make sure to fill out form correctly")
+          alert("Please make sure you fill out all form fields!")
         }
     });
