@@ -7,6 +7,7 @@ const design = $('#design');
 const shirtColorsDiv = $('#colors-js-puns');
 const shirtColors = $('#color option');
 const checkBoxCollection = $(':checkbox');
+const costField = '<p><label>Total: $ <input type="text" name="total" value="0.00" readonly="readonly"></label></p>'  //appends a read only cost field
 const js_frameworks = $('[name="js-frameworks"]');
 const express = $('[name="express"]');
 const js_libs = $('[name="js-libs"]');
@@ -32,6 +33,7 @@ const creditCardFieldError = '<span class="validator" id="cc_validator_message">
 const zipcodeFieldError = '<span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span>'
 const cvvFieldError = '<span class="validator" id="cvv_validator_message">Invalid CVV.</span>'
 const submitButton = $('button[type="submit"]');
+    activitiesFieldSet.append(costField);                                         //appends the costField to the bottom of workshop list
     nameField.before(nameFieldError);
     email.before(emailFieldError);
     activitiesFieldSet.prepend(workshopFieldError);
