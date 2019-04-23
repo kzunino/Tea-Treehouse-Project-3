@@ -14,8 +14,8 @@ button {
 
 body {
   font: 1em/1.5;
-  color: #184f68;
-	background: #accbd9;
+  color: #25512b;
+	background: #aba69d;
 }
 
 header {
@@ -38,7 +38,7 @@ a {
 
 form {
 	padding: .875em 1.875em 1.875em;
-	background: #85b5ca;
+	background: #A9987B;
 }
 
 fieldset,
@@ -60,7 +60,7 @@ button {
 legend {
 	font-weight: 500;
 	padding-top: .5em;
-	border-top: 2px solid #679cb3;
+	border-top: 2px solid #334936;
 	margin-bottom: 1.125em;
 }
 
@@ -68,6 +68,7 @@ input[type="text"],
 input[type="email"],
 legend {
 	width: 100%;
+  border-radius: 5px;
 }
 
 label {
@@ -85,14 +86,14 @@ input {
 	font-size: 1em;
 	font-weight: 500;
 	padding: .8em;
-	background: #c1deeb;
-	border: 2px solid #c1deeb;
+	background: #adadad;
+	border: 2px solid #adadad;
 	outline: none;
 }
 
 input:focus {
-	background: #fff;
-	border-color: #5e97b0;
+	background: #b2b2b2;
+	border-color: #dbdad9;
 	transition: border-color .4s, background-color .4s;
 }
 
@@ -104,13 +105,13 @@ input[type="radio"] {
 button {
 	color: #fff;
 	padding: .55em 1.25em;
-	background: #22627e;
+	background: #605543;
 	margin: 1.25em 0 .5em;
 	cursor: pointer;
 }
 
 button:hover {
-	background: #184c62;
+	background: #494133;
 }
 
 span.validator {

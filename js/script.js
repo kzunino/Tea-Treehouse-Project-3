@@ -168,7 +168,7 @@ paymentMethod.on('click', function(){               //iterates through selectabl
 function isNameBlank(){
     if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
       nameField.css({"border": "1px solid red"});
-      $('#name_validator_message').show();
+      $('#name_validator_message').fadeIn(2000);
     }else{
       nameField.css({"border": "1px solid green"});
       $('#name_validator_message').hide();
