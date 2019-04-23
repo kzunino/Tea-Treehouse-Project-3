@@ -277,7 +277,7 @@ submitButton.on('click', function(e){
         && isEmailValid()
         && oneCheckboxChecked()){
     }else if ($(paymentMethod[1]).is(':selected')){
-        isEmailValid()
+        isCreditNumberValid()
         && isZipcodeValid()
         && isCvvValid()
     }else{
