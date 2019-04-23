@@ -276,10 +276,10 @@ submitButton.on('click', function(e){
     if (isNameBlank()
         && isEmailValid()
         && oneCheckboxChecked()){
-    }else if ($(paymentMethod[1]).is(':selected')){
-        isCreditNumberValid()
+    }else if ($(paymentMethod[1]).is(':selected')
+        && isCreditNumberValid()
         && isZipcodeValid()
-        && isCvvValid()
+        && isCvvValid()){
     }else{
           e.preventDefault();
           alert("Please make sure to fill out form correctly")
