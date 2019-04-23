@@ -13,7 +13,7 @@ const js_libs = $('[name="js-libs"]');
 const node = $('[name="node"]');
 const nameField = $('#name');
 const email = $('#mail');
-const isCheckboxChecked = false;                                             // when page loads default is false, unitl 1 checkbox is checked
+let isCheckboxChecked = false;                                             // when page loads default is false, unitl 1 checkbox is checked
 const creditCardNumber = $('#cc-num');
 const zipcode = $('#zip');
 const cvv = $('#cvv');
@@ -47,7 +47,7 @@ let activityCosts = $('[name="total"]').val(0);                          //sets 
 
 $('input[type=checkbox]').prop('checked',false);                        // unchecks all checkboxes if page is refreshed
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
-$(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" select option to ensure form is filled out properly
+$(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" as selectable option
 
 shirtColorsDiv.hide();
 // shirtColors.hide();                                                    // hides shirt colors when page loads
@@ -92,7 +92,7 @@ design.on('click', function (){                     // function to hide/show col
     });
   }
  if (design.val() === 'select theme'){              //if select theme is selected, hides all color options
-   shirtColorsDiv.hide();                           
+   shirtColorsDiv.hide();
  }
 });
 
