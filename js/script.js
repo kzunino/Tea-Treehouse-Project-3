@@ -280,12 +280,10 @@ submitButton.on('click', function(e){
         && isCreditNumberValid()
         && isZipcodeValid()
         && isCvvValid()){
-          return true;
     }else if ($(paymentMethod[1]).prop(':selected', false)
         && isNameBlank()
         && isEmailValid()
         && oneCheckboxChecked()){
-        return true;
     }else{
           e.preventDefault();
           alert("Please make sure to fill out form correctly")
