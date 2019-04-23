@@ -190,7 +190,7 @@ function isEmailValid(){
       $("#email_validator_message").hide();
     }else{
       email.css({"border": "1px solid red"});
-      $("#email_validator_message").show();
+      $("#email_validator_message").fadeIn(2000);
 
     }
 };
@@ -202,7 +202,7 @@ email.on('keydown keyup', function(){
 function oneCheckboxChecked(){                                            //if no checkboxes checked, value is 0 and false
   if ($(':checkbox:checked').length === 0){
     isCheckboxChecked = false;
-    $('#workshop_validator_message').show();
+    $('#workshop_validator_message').fadeIn(1500);
   }else{
     isCheckboxChecked = true;
     $('#workshop_validator_message').hide();
@@ -223,6 +223,7 @@ function creditCardNumeralError(creditCardNumber){
 }
 
 function isCreditNumberValid(){
+  $('#ccNANError').hide();                                      //hides cc not a number error message if error is fixed
     if (creditCardValidation(creditCardNumber)
      && creditCardNumber.val() !== ''
      && creditCardNumeralError(creditCardNumber) === false){
@@ -230,7 +231,7 @@ function isCreditNumberValid(){
        $('#ccNANError').hide();
     }else if (creditCardNumeralError(creditCardNumber)){
         creditCardNumber.css({"border": "1px solid red"})
-        $('#ccNANError').show();
+        $('#ccNANError').fadeIn(2000);
     }else{
       creditCardNumber.css({"border": "1px solid red"});
     }
@@ -247,8 +248,10 @@ function zipcodeNumberValid(zipcode){
 function isZipcodeValid(){
     if (zipcodeNumberValid(zipcode)){
       zipcode.css({"border": "1px solid green"});
+      $('#zipcode_validator_message').hide();
     }else{
       zipcode.css({"border": "1px solid red"});
+      $('#zipcode_validator_message').fadeIn(2000);
     }
 };
 
@@ -263,8 +266,11 @@ function cvvNumberValid(cvv){
 function isCvvValid(){
     if (cvvNumberValid(cvv)){
       cvv.css({"border": "1px solid green"});
+      $('#cvv_validator_message').hide();
     }else{
       cvv.css({"border": "1px solid red"});
+      $('#cvv_validator_message').fadeIn(2000);
+
     }
 };
 
