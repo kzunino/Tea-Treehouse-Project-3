@@ -43,7 +43,7 @@ const submitButton = $('button[type="submit"]');
     zipcode.before(zipcodeFieldError);
     cvv.before(cvvFieldError);
 
-const validatorSpans = $('.validator');                                   //creates validator variable to hide
+const validatorSpans = $('.validator');                                   //creates validator variable to hide validation error messages
 
 validatorSpans.hide();                                                    //hides the error messages
 
