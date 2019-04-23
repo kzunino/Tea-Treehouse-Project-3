@@ -41,7 +41,7 @@ const submitButton = $('button[type="submit"]');
     zipcode.before(zipcodeFieldError);
     cvv.before(cvvFieldError);
 
-const validatorSpans = $('.validator');
+const validatorSpans = $('.validator');                                   //creates validator variable to hide
 
 validatorSpans.hide();                                                    //hides the error messages
 
@@ -51,8 +51,7 @@ $('input[type=checkbox]').prop('checked',false);                        // unche
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
 $(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" as selectable option
 
-shirtColorsDiv.hide();
-// shirtColors.hide();                                                    // hides shirt colors when page loads
+shirtColorsDiv.hide();                                                  //hides shirt colors when page laods
 paypalDiv.hide();                                                      //hides paypal div
 bitcoinDiv.hide();                                                   //hides Bitcoin div
 
@@ -83,7 +82,7 @@ design.on('click', function (){                     // function to hide/show col
     }
   });
 }
-  if (design.val() === 'heart js'){
+  if (design.val() === 'heart js'){                   //hides JS Puns, and also shows hear JS desings
     shirtColorsDiv.show();
     shirtColors.each(function(index, colorOption){
       if (index > 2){
@@ -104,7 +103,7 @@ checkBoxCollection.on('change', function(){         //fucntion to disable confli
   if (js_frameworks.is(':checked')){                //if js_frameworks is checked then express workship is disabled and checkbox is hidden
     express.prop('disabled', true).hide();
   }
-  if (js_frameworks.is(':checked') === false){
+  if (js_frameworks.is(':checked') === false){        //if js_frameworks is unchecked then express.prop is reenabled and clickable
     express.prop('disabled', false).show();
   }
   if (express.is(':checked')){
@@ -138,7 +137,7 @@ checkBoxCollection.on('change', function(){           // function to add the val
     }
   }
 }
-  activityCosts.val(cost);                          //updates the activtyCosts input value
+  activityCosts.val(cost);                          //updates the activtyCosts input value defined under global variables
 });
 
 // *********** "Payment Info" section ***************
@@ -166,6 +165,7 @@ paymentMethod.on('click', function(){               //iterates through selectabl
 
 // ************* Form validation **************
 
+//*************  Name Validator *************************
 
 function isNameBlank(){
     if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
@@ -179,11 +179,11 @@ function isNameBlank(){
     }
 };
 
-nameField.on('keydown keyup', function(){
+nameField.on('keydown keyup', function(){                             //event listenter that calls validation function for name field
   isNameBlank();
 });
 
-
+//*************  Email Validator *************************
 function validEmailFormat(email){
     return /^[^@$#\s]+@[^@\s]+\.[^\s][a-z]+$/i.test(email.val());             //checks to see if email value is valid.
 };
@@ -205,13 +205,16 @@ email.on('keydown keyup', function(){
   isEmailValid();
 });
 
+
+// ************* Is one Checkbox Checked ******************
+
 function oneCheckboxChecked(){                                            //if no checkboxes checked, value is 0 and false
   if ($(':checkbox:checked').length === 0){
     isCheckboxChecked = false;
     $('#workshop_validator_message').fadeIn(1500);
     return false;
   }else{
-    isCheckboxChecked = true;
+    isCheckboxChecked = true;                                           //if checkbox selector has a length, then at least one is checked and returns true
     $('#workshop_validator_message').hide();
     return true;
   }
@@ -221,28 +224,29 @@ checkBoxCollection.on('click', function(){
   oneCheckboxChecked();
 });
 
+//*************  Credit Card Section Validators *************************
 
 function creditCardValidation(creditCardNumber){
   return /^\d{13,16}$/.test(creditCardNumber.val());                                // validates that field contains 13-16 numerals
 };
 
-function creditCardNumeralError(creditCardNumber){
+function creditCardNumeralError(creditCardNumber){                                //checks for characters besides numeral/digits
   return /\D/.test(creditCardNumber.val());
 }
 
 function isCreditNumberValid(){
-  $('#ccNANError').hide();                                      //hides cc not a number error message if error is fixed
-  $('#cc_blank_validator').hide();
-    if (creditCardValidation(creditCardNumber)
+  $('#ccNANError').hide();                                      //hides cc NAN error message if validation error is fixed
+  $('#cc_blank_validator').hide();                              // hides error if validation error is fixed
+    if (creditCardValidation(creditCardNumber)                  // if field is not blank, and has only numerals in correct quanitity, returns true
      && creditCardNumber.val() !== ''
      && creditCardNumeralError(creditCardNumber) === false){
        creditCardNumber.css({"border": "1px solid green"})
-       $('#ccNANError').hide();
+       return true;
     }else if (creditCardNumeralError(creditCardNumber)){
         creditCardNumber.css({"border": "1px solid red"})
         $('#ccNANError').show();
         return false;
-    }else if (creditCardNumber.val() === ''){
+    }else if (creditCardNumber.val() === ''){                 // if field is blank, shows please don't leave blank message
         $('#cc_blank_validator').show();
         return false;
     }else{
@@ -299,7 +303,7 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
-    if ($(paymentMethod[1]).is(':selected')
+    if ($(paymentMethod[1]).prop(':selected', true)                                 //paymentmethod[1] is credit card selector option
         && isNameBlank()
         && isEmailValid()
         && oneCheckboxChecked()
