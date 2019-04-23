@@ -171,10 +171,12 @@ function isNameBlank(){
     if (nameField.val() === '' || /^\s*$/.test(nameField.val())){     // tests for blank or whitespce
       nameField.css({"border": "1px solid red"});
       $('#name_validator_message').fadeIn(2000);
+      return false;
     }else{
       nameField.css({"border": "1px solid green"});
       $('#name_validator_message').hide();
-        }
+      return true;
+    }
 };
 
 nameField.on('keydown keyup', function(){
@@ -190,9 +192,11 @@ function isEmailValid(){
     if (validEmailFormat(email)){
       email.css({"border": "1px solid green"});
       $("#email_validator_message").hide();
+      return true;
     }else{
       email.css({"border": "1px solid red"});
       $("#email_validator_message").fadeIn(2000);
+      return false;
 
     }
 };
@@ -205,9 +209,11 @@ function oneCheckboxChecked(){                                            //if n
   if ($(':checkbox:checked').length === 0){
     isCheckboxChecked = false;
     $('#workshop_validator_message').fadeIn(1500);
+    return false;
   }else{
     isCheckboxChecked = true;
     $('#workshop_validator_message').hide();
+    return true;
   }
 };
 
@@ -257,9 +263,11 @@ function isZipcodeValid(){
     if (zipcodeNumberValid(zipcode)){
       zipcode.css({"border": "1px solid green"});
       $('#zipcode_validator_message').hide();
+      return true;
     }else{
       zipcode.css({"border": "1px solid red"});
       $('#zipcode_validator_message').show();
+      return false;
     }
 };
 
@@ -275,9 +283,11 @@ function isCvvValid(){
     if (cvvNumberValid(cvv)){
       cvv.css({"border": "1px solid green"});
       $('#cvv_validator_message').hide();
+      return true;
     }else{
       cvv.css({"border": "1px solid red"});
       $('#cvv_validator_message').show();
+      return false;
     }
 };
 
