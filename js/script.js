@@ -305,18 +305,17 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
-    if (isNameBlank()
-        && isEmailValid()
-        && oneCheckboxChecked() !== true){
+    if (!isNameBlank()
+        || !isEmailValid()
+        || !oneCheckboxChecked()){
           e.preventDefault();
           alert("Please make sure you fill out all form fields!")
         }
-    // if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
-    //     if (isCreditNumberValid()
-    //     && isZipcodeValid()
-    //     && isCvvValid() !== true){
-    //       e.preventDefault();
-    //       alert("Please make sure you fill out all form fields!")
-    //       }
-    //     }
+    if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
+        if (!isCreditNumberValid()
+        || !isZipcodeValid()
+        || !isCvvValid()){
+          e.preventDefault();
+          }
+        }
     });
