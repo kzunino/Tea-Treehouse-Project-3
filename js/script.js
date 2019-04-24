@@ -101,8 +101,8 @@ design.on('click', function (){                     // function to hide/show col
 
 // ***** ”Register for Activities” section *******
 
-function enableCheckbox(element){
-    element.prop('disabled', false).show();
+function enableCheckbox(element){                   //DRY refactoring functions that disable and enable checkboxes depending on conflicting time slots
+    element.prop('disabled', false).show();         //function calls make readability easier.
 }
 function disableCheckbox(element){
   element.prop('disabled', true).hide();
@@ -110,35 +110,27 @@ function disableCheckbox(element){
 
 checkBoxCollection.on('change', function(){         //fucntion to disable conflicting times for workshops
   if (js_frameworks.is(':checked')){                //if js_frameworks is checked then express workship is disabled and checkbox is hidden
-    //express.prop('disabled', true).hide();
     disableCheckbox(express);
   }
   if (js_frameworks.is(':checked') === false){        //if js_frameworks is unchecked then express.prop is reenabled and clickable
-    //express.prop('disabled', false).show();
     enableCheckbox(express);
   }
   if (express.is(':checked')){
-    //js_frameworks.prop('disabled', true).hide();
     disableCheckbox(js_frameworks);
   }
   if (express.is(':checked') === false){
-    //js_frameworks.prop('disabled', false).show();
     enableCheckbox(js_frameworks);
   }
   if (js_libs.is(':checked')){
-    //node.prop('disabled', true).hide();
     disableCheckbox(node);
   }
   if (js_libs.is(':checked') === false){
-    //node.prop('disabled', false).show();
     enableCheckbox(node);
   }
   if (node.is(':checked')){
-    //js_libs.prop('disabled', true).hide();
     disableCheckbox(js_libs);
   }
   if (node.is(':checked') === false){
-    //js_libs.prop('disabled', false).show();
     enableCheckbox(js_libs);
   }
 });
@@ -242,6 +234,7 @@ checkBoxCollection.on('click', function(){
 });
 
 //*************  Credit Card Section Validators *************************
+
 
 function creditCardValidation(creditCardNumber){
   return /^\d{13,16}$/.test(creditCardNumber.val());                                // validates that field contains 13-16 numerals
