@@ -305,16 +305,18 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
-    if (isNameBlank()                                                    // all validation functions must return true to submit.
+    if (isNameBlank()
         && isEmailValid()
-        && oneCheckboxChecked()){
+        && oneCheckboxChecked() !== true){
+          e.preventDefault();
+          alert("Please make sure you fill out all form fields!")
         }
-    if ($(paymentMethod[1]).is(':selected')                         //paymentmethod[1] is credit card selector option
-        && isCreditNumberValid()
+    if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
+        if (isCreditNumberValid()
         && isZipcodeValid()
-        && isCvvValid()){
-    }else{
-        e.preventDefault();
-        alert("Please make sure you fill out all form fields!")
+        && isCvvValid() !== true){
+          e.preventDefault();
+          alert("Please make sure you fill out all form fields!")
+          }
         }
     });
