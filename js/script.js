@@ -213,7 +213,7 @@ email.on('keydown keyup', function(){
 function oneCheckboxChecked(){                                            //if no checkboxes checked, value is 0 and false
   if ($(':checkbox:checked').length === 0){
     isCheckboxChecked = false;
-    $('#workshop_validator_message').fadeIn(1500);
+    $('#workshop_validator_message').fadeIn(1000);
     return false;
   }else{
     isCheckboxChecked = true;                                           //if checkbox selector has a length, then at least one is checked and returns true
@@ -311,12 +311,12 @@ submitButton.on('click', function(e){                                       //if
           e.preventDefault();
           alert("Please make sure you fill out all form fields!")
         }
-    if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
-        if (isCreditNumberValid()
-        && isZipcodeValid()
-        && isCvvValid() !== true){
-          e.preventDefault();
-          alert("Please make sure you fill out all form fields!")
-          }
-        }
+    // if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
+    //     if (isCreditNumberValid()
+    //     && isZipcodeValid()
+    //     && isCvvValid() !== true){
+    //       e.preventDefault();
+    //       alert("Please make sure you fill out all form fields!")
+    //       }
+    //     }
     });
