@@ -305,17 +305,14 @@ cvv.on('keyup keydown', function(){
 
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
-    if ($(paymentMethod[1]).prop(':selected', true)                         //paymentmethod[1] is credit card selector option
-        && isNameBlank()                                                    // all validation functions must return true to submit.
+    if (isNameBlank()                                                    // all validation functions must return true to submit.
         && isEmailValid()
-        && oneCheckboxChecked()
+        && oneCheckboxChecked()){
+        }
+    if ($(paymentMethod[1]).is(':selected')                         //paymentmethod[1] is credit card selector option
         && isCreditNumberValid()
         && isZipcodeValid()
         && isCvvValid()){
-    }else if ($(paymentMethod[1]).prop(':selected', false)                // if payment method is not selected, then only name, email, and checkbox must be validated
-        && isNameBlank()
-        && isEmailValid()
-        && oneCheckboxChecked()){
     }else{
         e.preventDefault();
         alert("Please make sure you fill out all form fields!")
