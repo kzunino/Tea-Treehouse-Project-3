@@ -76,9 +76,9 @@ $('#title').on('change', function(){             // function shows input if othe
 // ******* T-shirt information Section ***********
 
 design.on('change', function (){                     // function to hide/show colors for specific designs
-  $(shirtColors[0]).prop("selected", true);    //changes T-shirt colors when new design is selected.
   shirtColorsDiv.show();                            //shows color optionsDiv if selected
   if (design.val() === 'js puns'){                  //if statement checks value for design string
+    $(shirtColors[0]).prop("selected", true);         //changes T-shirt colors when new design is selected.
     shirtColors.each(function(index, colorOption){  //uses Jquery loop to read index values of color options
       if (index <= 2){                              //either shows or hids depending on which design is selected.
         $(colorOption).show();
@@ -88,7 +88,7 @@ design.on('change', function (){                     // function to hide/show co
   });
 }
   if (design.val() === 'heart js'){                   //hides JS Puns, and also shows hear JS desings
-    $(shirtColors[3]).attr("selected", true);
+    $(shirtColors[3]).prop("selected", true);         //sets default shirt color to first option 
     shirtColorsDiv.show();
     shirtColors.each(function(index, colorOption){
       if (index > 2){
