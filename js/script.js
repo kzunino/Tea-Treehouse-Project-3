@@ -31,9 +31,9 @@ const emailFieldError = '<span class="validator" id="email_validator_message">Pl
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
 const creditcardBlankError = '<span class="validator" id="cc_blank_validator">Please do not leave field blank.</span>';
 const creditCardCharacterError = '<p><span class="validator" id="ccNANError">Please use numeral characters.</span></p>';
-const creditCardFieldError = '<p><span class="validator" id="cc_validator_message">Invalid Number.</span></p>'
-const zipcodeFieldError = '<p><span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span></p>'
-const cvvFieldError = '<p><span class="validator" id="cvv_validator_message">Invalid CVV.</span></p>'
+const creditCardFieldError = '<p><span class="validator" id="cc_validator_message">Invalid Number.</span></p>';
+const zipcodeFieldError = '<p><span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span></p>';
+const cvvFieldError = '<p><span class="validator" id="cvv_validator_message">Invalid CVV.</span></p>';
 const submitButton = $('button[type="submit"]');
     activitiesFieldSet.append(costField);                                         //appends the costField to the bottom of workshop list
     nameField.before(nameFieldError);
@@ -65,7 +65,7 @@ $('#name').focus();
 // ****** Job role Section ********
 otherInput.hide();                               // hides the other-title job input field
 
-$('#title').on('click', function(){             // function shows input if other is selected and hides it if not
+$('#title').on('change', function(){             // function shows input if other is selected and hides it if not
     if ($('#title').val() === 'other') {
       otherInput.show();
     }else{
