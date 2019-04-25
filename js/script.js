@@ -19,7 +19,7 @@ let isCheckboxChecked = false;                                             // wh
 const creditCardNumber = $('#cc-num');
 const zipcode = $('#zip');
 const cvv = $('#cvv');
-const creditCardInformation = $('#credit-card div');
+const creditCardInformation = $('#credit-card');
 const activitiesFieldSet = $('.activities');
 const paymentMethod = $('#payment');
 const paymentOptions = $('#payment option');
@@ -30,20 +30,20 @@ const nameFieldError = '<span class="validator" id="name_validator_message">Plea
 const emailFieldError = '<span class="validator" id="email_validator_message">Please enter a valid email address.</span>';
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
 const creditcardBlankError = '<span class="validator" id="cc_blank_validator">Please do not leave field blank.</span>';
-const creditCardCharacterError = '<span class="validator" id="ccNANError">Please use numeral characters.</span>';
-const creditCardFieldError = '<span class="validator" id="cc_validator_message">Invalid Number.</span>'
-const zipcodeFieldError = '<span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span>'
-const cvvFieldError = '<span class="validator" id="cvv_validator_message">Invalid CVV.</span>'
+const creditCardCharacterError = '<p><span class="validator" id="ccNANError">Please use numeral characters.</span></p>';
+const creditCardFieldError = '<p><span class="validator" id="cc_validator_message">Invalid Number.</span></p>'
+const zipcodeFieldError = '<p><span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span></p>'
+const cvvFieldError = '<p><span class="validator" id="cvv_validator_message">Invalid CVV.</span></p>'
 const submitButton = $('button[type="submit"]');
     activitiesFieldSet.append(costField);                                         //appends the costField to the bottom of workshop list
     nameField.before(nameFieldError);
     email.before(emailFieldError);
     activitiesFieldSet.prepend(workshopFieldError);
-    creditCardNumber.before(creditCardFieldError);
-    creditCardNumber.before(creditcardBlankError);
-    creditCardNumber.before(creditCardCharacterError);
-    zipcode.before(zipcodeFieldError);
-    cvv.before(cvvFieldError);
+    creditCardInformation.before(creditCardFieldError);
+    creditCardInformation.before(creditcardBlankError);
+    creditCardInformation.before(creditCardCharacterError);
+    creditCardInformation.before(zipcodeFieldError);
+    creditCardInformation.before(cvvFieldError);
 
 const validatorSpans = $('.validator');                                   //creates validator variable to hide validation error messages
 
