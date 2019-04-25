@@ -4,6 +4,7 @@
 
 const otherInput = $('#other-title');
 const design = $('#design');
+const designOptions = $('#design option')
 const shirtColorsDiv = $('#colors-js-puns');
 const shirtColors = $('#color option');
 const checkBoxCollection = $(':checkbox');
@@ -20,7 +21,8 @@ const zipcode = $('#zip');
 const cvv = $('#cvv');
 const creditCardInformation = $('#credit-card div');
 const activitiesFieldSet = $('.activities');
-const paymentMethod = $('#payment option');
+const paymentMethod = $('#payment');
+const paymentOptions = $('#payment option');
 const paypalDiv = $('#credit-card').next();
 const bitcoinDiv = $('#credit-card').next().next();
 
@@ -51,8 +53,8 @@ let activityCosts = $('[name="total"]').val(0);                          //sets 
 
 $('input[type=checkbox]').prop('checked',false);                        // unchecks all checkboxes if page is refreshed
 $('select option[value="credit card"]').prop('selected', true);        // sets credit card option to default select option
-$(paymentMethod[0]).prop('disabled', true);                          // Disables the "select payment" as selectable option
-
+$(paymentOptions[0]).prop('disabled', true);                          // Disables the "select payment" as selectable option
+$(designOptions[0]).prop('selected', true);                         //Sets default desing to 'Select Theme'
 shirtColorsDiv.hide();                                                  //hides shirt colors when page laods
 paypalDiv.hide();                                                      //hides paypal div
 bitcoinDiv.hide();                                                   //hides Bitcoin div
@@ -73,7 +75,8 @@ $('#title').on('click', function(){             // function shows input if other
 
 // ******* T-shirt information Section ***********
 
-design.on('click', function (){                     // function to hide/show colors for specific designs
+design.on('change', function (){                     // function to hide/show colors for specific designs
+  $(shirtColors[0]).prop("selected", true);    //changes T-shirt colors when new design is selected.
   shirtColorsDiv.show();                            //shows color optionsDiv if selected
   if (design.val() === 'js puns'){                  //if statement checks value for design string
     shirtColors.each(function(index, colorOption){  //uses Jquery loop to read index values of color options
@@ -85,6 +88,7 @@ design.on('click', function (){                     // function to hide/show col
   });
 }
   if (design.val() === 'heart js'){                   //hides JS Puns, and also shows hear JS desings
+    $(shirtColors[3]).attr("selected", true);
     shirtColorsDiv.show();
     shirtColors.each(function(index, colorOption){
       if (index > 2){
@@ -102,10 +106,10 @@ design.on('click', function (){                     // function to hide/show col
 // ***** ”Register for Activities” section *******
 
 function enableCheckbox(element){                   //DRY refactoring functions that disable and enable checkboxes depending on conflicting time slots
-    element.prop('disabled', false).show();         //function calls make readability easier.
+    element.prop('disabled', false);         //function calls make readability easier.
 }
 function disableCheckbox(element){
-  element.prop('disabled', true).hide();
+  element.prop('disabled', true);
 }
 
 checkBoxCollection.on('change', function(){         //fucntion to disable conflicting times for workshops
@@ -151,19 +155,19 @@ checkBoxCollection.on('change', function(){           // function to add the val
 
 // *********** "Payment Info" section ***************
 
-paymentMethod.on('click', function(){               //iterates through selectable payment options
-  for (let i = 1; i < paymentMethod.length; i++){
-    if ($(paymentMethod[i]).is(':selected')){
-      if (i === 1){                                 //hides and shows appropriate information for each payment option
-        $('.credit-card').show().prop('disabled', false);
+paymentMethod.on('change', function(){                            //iterates through selectable payment options
+  for (let i = 1; i < paymentOptions.length; i++){
+    if ($(paymentOptions[i]).is(':selected')){
+      if (i === 1){                                              //hides and shows appropriate information for each payment option
+        $('.credit-card').show().prop('hidden', false);
         bitcoinDiv.hide();
         paypalDiv.hide();
       }else if (i === 2){
-        $('.credit-card').hide().prop('disabled', true);
+        $('.credit-card').hide().prop('hidden', true);
         paypalDiv.show();
         bitcoinDiv.hide();
       }else if (i === 3){
-        $('.credit-card').hide().prop('disabled', true);
+        $('.credit-card').hide().prop('hidden', true);
         bitcoinDiv.show();
         paypalDiv.hide();
       }
@@ -319,7 +323,7 @@ submitButton.on('click', function(e){                                       //if
           e.preventDefault();
           alert("Please make sure you fill out all form fields!")
         }
-    if ($(paymentMethod[1]).is(':selected')) {                              //paymentmethod[1] is credit card selector option
+    if ($(paymentOptions[1]).is(':selected')) {                              //paymentOption[1] is credit card selector option
         if (!isCreditNumberValid()
         || !isZipcodeValid()
         || !isCvvValid()){
