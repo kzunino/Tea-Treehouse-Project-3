@@ -29,9 +29,9 @@ const bitcoinDiv = $('#credit-card').next().next();
 const nameFieldError = '<span class="validator" id="name_validator_message">Please do not leave name field blank.</span>';
 const emailFieldError = '<span class="validator" id="email_validator_message">Please enter a valid email address.</span>';
 const workshopFieldError = '<span class="validator" id="workshop_validator_message">Please make sure to select at least one workshop.</span><br>'
-const creditcardBlankError = '<span class="validator" id="cc_blank_validator">Please do not leave field blank.</span>';
+const creditcardBlankError = '<span class="validator" id="blank_validator">Please do not leave field(s) blank.</span>';
 const creditCardCharacterError = '<p><span class="validator" id="ccNANError">Please use numeral characters.</span></p>';
-const creditCardFieldError = '<p><span class="validator" id="cc_validator_message">Invalid Number.</span></p>';
+const lineBreak = '<p><br></p>';                  //stops error messages from sliding accross screen
 const zipcodeFieldError = '<p><span class="validator" id="zipcode_validator_message">Invalid ZIP Code.</span></p>';
 const cvvFieldError = '<p><span class="validator" id="cvv_validator_message">Invalid CVV.</span></p>';
 const submitButton = $('button[type="submit"]');
@@ -39,11 +39,11 @@ const submitButton = $('button[type="submit"]');
     nameField.before(nameFieldError);
     email.before(emailFieldError);
     activitiesFieldSet.prepend(workshopFieldError);
-    creditCardInformation.before(creditCardFieldError);
-    creditCardInformation.before(creditcardBlankError);
-    creditCardInformation.before(creditCardCharacterError);
-    creditCardInformation.before(zipcodeFieldError);
-    creditCardInformation.before(cvvFieldError);
+    creditCardInformation.prepend(lineBreak);
+    creditCardInformation.prepend(creditcardBlankError);
+    creditCardInformation.prepend(creditCardCharacterError);
+    creditCardInformation.prepend(zipcodeFieldError);
+    creditCardInformation.prepend(cvvFieldError);
 
 const validatorSpans = $('.validator');                                   //creates validator variable to hide validation error messages
 
@@ -88,7 +88,7 @@ design.on('change', function (){                     // function to hide/show co
   });
 }
   if (design.val() === 'heart js'){                   //hides JS Puns, and also shows hear JS desings
-    $(shirtColors[3]).prop("selected", true);         //sets default shirt color to first option 
+    $(shirtColors[3]).prop("selected", true);         //sets default shirt color to first option
     shirtColorsDiv.show();
     shirtColors.each(function(index, colorOption){
       if (index > 2){
@@ -159,15 +159,16 @@ paymentMethod.on('change', function(){                            //iterates thr
   for (let i = 1; i < paymentOptions.length; i++){
     if ($(paymentOptions[i]).is(':selected')){
       if (i === 1){                                              //hides and shows appropriate information for each payment option
-        $('.credit-card').show().prop('hidden', false);
+        $(creditCardInformation).show().prop('hidden', false);
         bitcoinDiv.hide();
         paypalDiv.hide();
       }else if (i === 2){
-        $('.credit-card').hide().prop('hidden', true);
+        $(creditCardInformation).hide().prop('hidden', true);
         paypalDiv.show();
         bitcoinDiv.hide();
+
       }else if (i === 3){
-        $('.credit-card').hide().prop('hidden', true);
+        $(creditCardInformation).hide().prop('hidden', true);
         bitcoinDiv.show();
         paypalDiv.hide();
       }
@@ -248,9 +249,10 @@ function creditCardNumeralError(creditCardNumber){                              
   return /\D/.test(creditCardNumber.val());
 }
 
+
 function isCreditNumberValid(){
   $('#ccNANError').hide();                                      //hides cc NAN error message if validation error is fixed
-  $('#cc_blank_validator').hide();                              // hides error if validation error is fixed
+  $('#blank_validator').hide();                              // hides error if validation error is fixed
     if (creditCardValidation(creditCardNumber)                  // if field is not blank, and has only numerals in correct quanitity, returns true
      && creditCardNumber.val() !== ''
      && creditCardNumeralError(creditCardNumber) === false){
@@ -261,7 +263,8 @@ function isCreditNumberValid(){
         $('#ccNANError').show();
         return false;
     }else if (creditCardNumber.val() === ''){                 // if field is blank, shows please don't leave blank message
-        $('#cc_blank_validator').show();
+        creditCardNumber.css({"border": "1px solid red"})
+        $('#blank_validator').show();
         return false;
     }else{
       creditCardNumber.css({"border": "1px solid red"});
@@ -278,10 +281,15 @@ function zipcodeNumberValid(zipcode){
 }
 
 function isZipcodeValid(){
-    if (zipcodeNumberValid(zipcode)){
+    if (zipcodeNumberValid(zipcode) && zipcode.val() !== ''){
       zipcode.css({"border": "1px solid green"});
       $('#zipcode_validator_message').hide();
+      $('#blank_validator').hide();
       return true;
+    }else if (zipcode.val() === ''){                                 // if field is blank, shows please don't leave blank message
+        zipcode.css({"border": "1px solid red"})
+        $('#blank_validator').show();
+        return false;
     }else{
       zipcode.css({"border": "1px solid red"});
       $('#zipcode_validator_message').show();
@@ -298,10 +306,15 @@ function cvvNumberValid(cvv){
 }
 
 function isCvvValid(){
-    if (cvvNumberValid(cvv)){
+    if (cvvNumberValid(cvv) && cvv.val() !== ''){
       cvv.css({"border": "1px solid green"});
       $('#cvv_validator_message').hide();
+      $('#blank_validator').hide();
       return true;
+    }else if (cvv.val() === ''){                                   // if field is blank, shows please don't leave blank message
+        cvv.css({"border": "1px solid red"})
+        $('#blank_validator').show();
+        return false;
     }else{
       cvv.css({"border": "1px solid red"});
       $('#cvv_validator_message').show();
@@ -315,12 +328,24 @@ cvv.on('keyup keydown', function(){
 
 // ********** Submit Button *************
 
+function validateFormer(){                                              //function makes all validation functions fire to highlight all invalid fields
+  isNameBlank();
+  isEmailValid();
+  oneCheckboxChecked();
+}
+
+function validateLatter(){
+  isCreditNumberValid();
+  isZipcodeValid();
+  isCvvValid();
+}
 
 submitButton.on('click', function(e){                                       //if payment method is credit is true, all validations must be true
     if (!isNameBlank()
         || !isEmailValid()
         || !oneCheckboxChecked()){
           e.preventDefault();
+          validateFormer();
           alert("Please make sure you fill out all form fields!")
         }
     if ($(paymentOptions[1]).is(':selected')) {                              //paymentOption[1] is credit card selector option
@@ -328,6 +353,7 @@ submitButton.on('click', function(e){                                       //if
         || !isZipcodeValid()
         || !isCvvValid()){
           e.preventDefault();
+          validateLatter();
           }
         }
     });
