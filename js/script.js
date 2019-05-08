@@ -193,7 +193,7 @@ function isNameBlank(){
     }
 };
 
-nameField.on('keydown keyup', function(){                             //event listenter that calls validation function for name field
+nameField.on('focusout', function(){                             //event listenter that calls validation function for name field
   isNameBlank();
 });
 
@@ -215,7 +215,7 @@ function isEmailValid(){
     }
 };
 
-email.on('keydown keyup', function(){
+email.on('focusout', function(){
   isEmailValid();
 });
 
@@ -297,7 +297,7 @@ function isZipcodeValid(){
     }
 };
 
-zipcode.on('keyup keydown', function(){
+zipcode.on('focusout', function(){
   isZipcodeValid();
 });
 
@@ -322,7 +322,7 @@ function isCvvValid(){
     }
 };
 
-cvv.on('keyup keydown', function(){
+cvv.on('focusout', function(){
   isCvvValid();
 });
 

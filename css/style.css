@@ -102,6 +102,10 @@ input[type="radio"] {
 	display: inline-block;
 }
 
+input[type=checkbox][disabled]{
+  outline:1px solid red;
+}
+
 button {
 	color: #fff;
 	padding: .55em 1.25em;
